@@ -1,11 +1,14 @@
 import { DataGrid, GridRenderCellParams } from "@mui/x-data-grid";
+import { useDispatch } from "react-redux";
 import { People } from "@/data/people";
 import { useState } from "react";
 import { Person } from "@/models";
 import { Checkbox } from "@mui/material";
 import { Favorite, FavoriteBorder } from "@mui/icons-material";
+import { addFavorite } from "@/redux/slices";
 
 const Home = () => {
+  const dispatch = useDispatch();
   const [selectPeople, setSelectPeople] = useState<Person[]>([]);
 
   const findPerson = (person: Person) =>
@@ -15,9 +18,13 @@ const Home = () => {
     selectPeople.filter((p) => p.id !== person.id);
 
   const handleChange = (person: Person) => {
-    setSelectPeople(
-      findPerson(person) ? filterPerson(person) : [...selectPeople, person]
-    );
+    const filteredPeople = findPerson(person)
+      ? filterPerson(person)
+      : [...selectPeople, person];
+
+    dispatch(addFavorite(filteredPeople));
+
+    setSelectPeople(filteredPeople);
   };
 
   const columns = [
