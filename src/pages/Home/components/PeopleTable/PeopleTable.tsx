@@ -75,6 +75,15 @@ const PeopleTable = () => {
         <div>{params.row.company}</div>
       ),
     },
+    {
+      field: "levelOfHappiness",
+      headerName: "Level of Happiness",
+      flex: 1,
+      minWidth: 150,
+      renderCell: (params: GridRenderCellParams) => (
+        <div>{params.row.levelOfHappiness}</div>
+      ),
+    },
   ];
 
   return (
