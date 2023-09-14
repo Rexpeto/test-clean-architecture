@@ -1,11 +1,40 @@
 import { DataGrid, GridRenderCellParams } from "@mui/x-data-grid";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { AppStore } from "@/redux/store";
+import { IconButton } from "@mui/material";
+import { DeleteOutline } from "@mui/icons-material";
+import { Person } from "@/models";
+import { removeFavorite } from "@/redux/slices";
 
 const FavoriteTable = () => {
+  const dispatch = useDispatch();
+
   const statePeople = useSelector((store: AppStore) => store.favorites);
 
+  const handleClick = (person: Person) => {
+    dispatch(removeFavorite(person));
+  };
+
   const columns = [
+    {
+      field: "action",
+      headerName: "",
+      type: "actions",
+      width: 50,
+      sortable: false,
+      filterable: false,
+      renderCell: (params: GridRenderCellParams) => (
+        <IconButton
+          color="primary"
+          aria-label="delete"
+          component="label"
+          onClick={() => handleClick(params.row)}
+        >
+          <DeleteOutline />
+        </IconButton>
+      ),
+    },
+
     {
       field: "name",
       headerName: "Name",
