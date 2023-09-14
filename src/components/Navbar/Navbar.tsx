@@ -7,6 +7,7 @@ const Navbar = () => {
   const handleClick = () => {
     dialogOpenSubject$.setSubject = true;
   };
+
   return (
     <>
       <CustomDialog>

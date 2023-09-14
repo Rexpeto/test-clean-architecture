@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { DataGrid, GridRenderCellParams } from "@mui/x-data-grid";
 import { useDispatch, useSelector } from "react-redux";
 import { Person } from "@/models";
@@ -11,11 +11,12 @@ const PeopleTable = () => {
   const dispatch = useDispatch();
 
   const statePeople = useSelector((store: AppStore) => store.people);
+  const favoritesPeople = useSelector((store: AppStore) => store.favorites);
 
   const [selectPeople, setSelectPeople] = useState<Person[]>([]);
 
   const findPerson = (person: Person) =>
-    !!selectPeople.find((p) => p.id === person.id);
+    !!favoritesPeople.find((p) => p.id === person.id);
 
   const filterPerson = (person: Person) =>
     selectPeople.filter((p) => p.id !== person.id);
@@ -85,6 +86,10 @@ const PeopleTable = () => {
       ),
     },
   ];
+
+  useEffect(() => {
+    setSelectPeople(favoritesPeople);
+  }, [favoritesPeople]);
 
   return (
     <DataGrid
